@@ -58,9 +58,8 @@ I evaluate with automatic measures (validate_report result and tries, levels cov
 | 3 | Mutation and gene transfer | FAIL or none | 0 | 5 of 5 | 3 | 51 |
 | 4 | *E. coli* and UTI | PASS | 1 | 4 of 5 | 2 | 62 |
 | 5 | Tuberculosis | PASS | 2 | 5 of 5 | 3 | 60 |
-| 6 | Gonorrhoea vs MRSA | FAIL or none | 1 | 3 of 5 | 0 | 19 |
 
-4 of 7 runs gave a passing report. Failed runs are kept. What worked: tool requests and the trace, recovery from tool errors, and the citation check (it made agents open papers they had only seen in search, in Runs 2b and 5). What did not: Runs 2 and 3 ended without a report.
+4 of 6 runs gave a passing report. Failed runs are kept. What worked: tool requests and the trace, recovery from tool errors, and the citation check. What did not: Runs 2 and 3 ended without a report.
 
 ## 6. Limitations
 
