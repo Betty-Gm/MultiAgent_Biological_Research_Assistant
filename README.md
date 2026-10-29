@@ -34,7 +34,7 @@ A `GroupChat` with my own `pick_next_speaker` function decides who speaks, not t
 3. The Analyst sends a summary to the Reviewer_Writer, who writes the report and runs `validate_report` (max 3 tries).
 
 **Why a user-defined workflow:** no routing loops or skipped steps; hard code checks between phases; easy tracing of which agent failed; bounded use of the free API (120 messages, 5 reminders); each agent has one job.
-**What it costs:** it depends on exact markers like `LEVEL 3`; it is rigid (forward only through five levels); agents have less freedom; I maintain the routing code myself;
+**What it costs:** it depends on exact markers like `LEVEL 1`; it is rigid; agents have less freedom; I maintain the routing code myself;
 
 ## 4. Reports with supporting evidence, sources and limitations
 
@@ -42,7 +42,7 @@ Every report has four headings: **Question, Findings, Evidence / Sources, Limita
 
 - **Supporting evidence:** each factual sentence in Findings needs a citation, going from broad to specific.
 - **Sources:** cited as `[PMID 12345678]`, `[NCT01234567]` or `[UniProt P37958]`.
-- **Limitations:** at least 20 words, and must mention missing levels, that only abstracts were read, that UniProt reviewed entries can miss new proteins, that trials are not results, and that the checks have limits.
+- **Limitations:** must state at least 20 words, and must mention missing levels, that only abstracts were read, that UniProt reviewed entries can miss new proteins, that trials are not results, and that the checks have limits.
 
 `validate_report` checks the four sections, the length of Limitations, that there is at least one citation, and that every cited ID was really retrieved by a tool (papers must be opened, not only seen in search). It cannot check whether a source really supports a claim.
 
@@ -59,15 +59,16 @@ I evaluate with automatic measures (validate_report result and tries, levels cov
 | 4 | *E. coli* and UTI | PASS | 1 | 4 of 5 | 2 | 62 |
 | 5 | Tuberculosis | PASS | 2 | 5 of 5 | 3 | 60 |
 
-4 of 6 runs gave a passing report. Failed runs are kept. What worked: tool requests and the trace, recovery from tool errors, and the citation check. What did not: Runs 2 and 3 ended without a report.
+4 of 6 runs gave a passing report. Failed runs are kept(to show the whole process). What worked: tool requests and the trace, recovery from tool errors, and the citation check. What did not: Runs 2 and 3 ended without a report.
 
 ## 6. Limitations
 
 - A passing `validate_report` does not mean the claims are true.
-- Only abstracts are read, not full papers. UniProt reviewed entries only. Trials are registrations, not results.
-- The Reviewer_Writer is an AI checking AI-written text. No expert has checked the biology.
+- Search tools are capped 5-10 results per query(to prevent overwhelming the LLm's context window).
+- Only abstracts are read, not full papers. UniProt reviewed entries only. 
+- The Reviewer_Writer is an AI checking AI-written text. 
 - Gemini free tier often returns 503, so some runs end early and results change between runs.
-- The workflow is fixed (five levels, forward only). And `HUMAN_APPROVAL = True` is tested.
+
 
 ## 7. How to run
 
